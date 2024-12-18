@@ -1,37 +1,4 @@
-// === Region: Project Declaration ===
-//
-//  COMP2011 Fall 2024
-//  PA2: Simpified MineSweeper Game Using Recursion
-//
-//  Your name: Saanvi Shukla
-//  Your ITSC email: sshukla@connect.ust.hk
-//
-//  Note: Generative AI is NOT allowed in completing your lab exercises or programming assignments
-//  Reference: https://course.cse.ust.hk/comp2011/web/code.html
-//
-//  Declaration:
-//  I declare that I am not involved in plagiarism
-//  I understand that both parties (i.e., students providing the codes and students copying the codes) will receive 0 marks.
-//
-//  Project TA:  BAI, Sikai (sbaiae@connect.ust.hk)
-//
-//  For code-level questions, please send a direct email to the above TA.
-//  Asking questions with code blocks in a public discussion forum (e.g., Piazza) may cause plagiarism issues
-//  Usually, you will get the quickest response via a direct email.
-//
-//  Possible usage of the program:
-//
-//  Method 1: You can display the output on the terminal
-//
-//  Mac/Linux: ./pa2 < testcase/inputX.txt
-//  Windows  :  Get-Content testcase/inputX.txt | ./pa2
-//
-//  Method 2: You can redirect the output to a text file, and then open the text file for checking
-//
-//  Mac/Linux: ./pa2 < testcase/inputX.txt > myOutputX.txt
-//  Winodws  :  Get-Content testcase/inputX.txt | ./pa2 > myOutputX.txt
-//
-// =====================================
+
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -72,19 +39,6 @@ void displayGameOptionMenu()
     }
 }
 
-// === Start the recursion coding tasks for PA2 ===
-
-// TODO: Implement fillMapUsingRecursion
-// This function fills in a 2D array with the input character in a given range using recursion
-// Note: You MUST USE recursion to implement this function
-// 0 marks will be given if you use loops to implement this function 
-//
-// @param map: The 2D array storing the map information
-// @param startRow: The start row index
-// @param startCol: The start column index
-// @param endRow: The end row index
-// @param endCol: The end column index
-// @param initChar: The character to fill the 2D array
 void fillMapUsingRecursion(char map[MAX_ROWS][MAX_COLS], int startRow, int startCol, int endRow, int endCol, char initChar)
 {
     if (startCol>endCol||startRow>endRow)
@@ -103,17 +57,6 @@ void fillMapUsingRecursion(char map[MAX_ROWS][MAX_COLS], int startRow, int start
     
 }
 
-// TODO: Implement countCharFromMapUsingRecursion
-// This function counts the number of characters in a 2D array in a given range using recursion
-// Note: You MUST USE recursion to implement this function
-// 0 marks will be given if you use loops to implement this function 
-//
-// @param map: The 2D array storing the map information
-// @param startRow: The start row index
-// @param startCol: The start column index
-// @param endRow: The end row index
-// @param endCol: The end column index
-// @param ch: The character to be counted from the 2D array
 int countCharFromMapUsingRecursion(const char map[MAX_ROWS][MAX_COLS], int startRow, int startCol, int endRow, int endCol, char ch)
 {
     if (startRow>endRow||startCol>endCol)
@@ -138,18 +81,6 @@ int countCharFromMapUsingRecursion(const char map[MAX_ROWS][MAX_COLS], int start
    return count;
 }
 
-
-// TODO: Implement countCharFromMapUsingRecursion
-// This function explores (i.e., updates) the current map 
-// Note: You MUST USE recursion to implement this function
-// 0 marks will be given if you use loops to implement this function 
-//
-// @param realMap: The 2D array storing the real map information
-// @param currentMap: The 2D array storing the current map (i.e., the exploring map) information
-// @param numRows: The number of rows for the maps (both maps have the same size)
-// @param numCols: The number of columns for the maps (both maps have the same size)
-// @param row: The row index to explore
-// @param col: The col index to explore
 
 int adjacentcount(const char realMap[MAX_ROWS][MAX_COLS],int numRows,int numCols,int row,int col)
     {
@@ -215,14 +146,10 @@ void exploreMapUsingRecursion(const char realMap[MAX_ROWS][MAX_COLS],char curren
 void displayMap(char map[MAX_ROWS][MAX_COLS], int numRows, int numCols)
 {
     int r, c;
-
-    // display column numbers
     cout << "  ";
     for (c = 0; c < numCols; c++)
         cout << c % 10 << " ";
     cout << endl;
-
-    // display map and row numbers (on the left)
     for (r = 0; r < numRows; r++)
     {
         cout << r % 10 << " ";
@@ -244,11 +171,11 @@ void handleLoadMap(char realMap[MAX_ROWS][MAX_COLS], char currentMap[MAX_ROWS][M
     fstream fin(filename);
     fin >> numRows >> numCols;
 
-    // Fill both the realMap and currentMap as CELL_EMPTY
+    
     fillMapUsingRecursion(realMap, 0, 0, numRows - 1, numCols - 1, CELL_EMPTY);
     fillMapUsingRecursion(currentMap, 0, 0, numRows - 1, numCols - 1, CELL_EMPTY);
 
-    fin.ignore(); // ignore and move to the next line, start to read the map characters
+    fin.ignore(); 
 
     for (r = 0; r < numRows; r++)
     {
@@ -298,16 +225,15 @@ bool handleMakeMove(char realMap[MAX_ROWS][MAX_COLS], char currentMap[MAX_ROWS][
 bool checkGameWin(char realMap[MAX_ROWS][MAX_COLS], char currentMap[MAX_ROWS][MAX_COLS],
                   int numRows, int numCols)
 {
-    // count the number of mines from the real map
+  
     int countMines = countCharFromMapUsingRecursion(realMap, 0, 0, numRows-1, numCols-1, CELL_MINE);
 
-    // count the number of empty cells in the current map
+    
     int countEmpty = countCharFromMapUsingRecursion(currentMap, 0, 0, numRows-1, numCols-1, CELL_EMPTY);
 
     cout << "The total number of mines in the real map is: " << countMines << endl;
     cout << "The total number of empty cells in the current map is: " << countEmpty << endl;
 
-    // End the game if both numbers are equal
     return countMines == countEmpty;
 }
 
